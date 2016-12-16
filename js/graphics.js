@@ -21,4 +21,9 @@ function drawObject(object) {
         brush.lineTo(on[2] + object.x, on[3] + object.y);
     });
     brush.stroke();
+    brush.beginPath();
+    object.circles.forEach((on) => {
+        brush.arc(on[0] + object.x, on[1] + object.y, on[2], 0, 2*Math.PI);
+    });
+    brush.stroke();
 }

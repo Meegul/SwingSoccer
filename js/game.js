@@ -10,7 +10,10 @@ objects[0] = {
     dy: 0,
     dxMax: 5,
     dyMax: 20,
-    lines: [[-100,-100,0,0], [0,0,-100,0], [-100,-100,-100,0]]
+    lines: [[0,0,0,50],[0,50,-25,75],[0,50,25,75],[0,10,-25,10],[0,10,25,10]],
+    circles: [[0, -25, 25]],
+    height: 75,
+    width: 25
 };
 
 //Main game logic
@@ -29,12 +32,12 @@ function updateLocations() {
     objects.forEach((on) => {
         on.x += on.dx;
         on.y += on.dy;
-        if (on.x >= area.width)
-            on.x = area.width-1;
-        if (on.x < 0)
-            on.x = 0;
-        if (on.y >= area.height)
-            on.y = area.height-1;
+        if (on.x+on.width >= area.width)
+            on.x = area.width-1-on.width;
+        if (on.x-on.width < 0)
+            on.x = 0+on.width;
+        if (on.y+on.height >= area.height)
+            on.y = area.height-1-on.height;
         if (on.y < 0)
             on.y = 0;
     });
@@ -67,7 +70,7 @@ function updateVelocities() {
         xChange += 1;
     if (keysDown[65]) //If a, increase speed left
         xChange -= 1;
-    if (keysDown[87] && objects[0].y == area.height - 1) //If w && object on ground, jump
+    if (keysDown[87] && objects[0].y+objects[0].height == area.height - 1) //If w && object on ground, jump
         yChange -= 10;
 
     //Calculates the new speeds
@@ -89,7 +92,7 @@ function updateVelocities() {
         objects[0].dy = objects[0].dyMax*-1;
 
     //If we're on the ground and didn't jump, have no vertical velocity
-    if (yChange == 0 && objects[0].y == area.height -1)
+    if (yChange == 0 && objects[0].y+objects[0].height == area.height -1)
         objects[0].dy = 0;
 }
 
