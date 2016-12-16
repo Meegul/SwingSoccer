@@ -17,15 +17,15 @@ function clear() {
 function drawObject(object) {
     brush.beginPath();
     object.lines.forEach((on) => {
-        const startPoints = calcPointWAngle(on[0], on[1], object);
-        const endPoints = calcPointWAngle(on[2], on[3], object);
+        const startPoints = rotateAroundObject(on[0], on[1], object);
+        const endPoints = rotateAroundObject(on[2], on[3], object);
         brush.moveTo(startPoints[0], startPoints[1]);
         brush.lineTo(endPoints[0], endPoints[1]);
     });
     brush.stroke();
     brush.beginPath();
     object.circles.forEach((on) => {
-        const pointsAfterRotation = calcPointWAngle(on[0], on[1], object);
+        const pointsAfterRotation = rotateAroundObject(on[0], on[1], object);
         brush.arc(pointsAfterRotation[0], pointsAfterRotation[1], on[2], 0, 2*Math.PI);
     });
     brush.stroke();
@@ -34,7 +34,7 @@ function drawObject(object) {
 //Used to calculate angles after rotation
 //It is assumed that the rotation is around
 //the provided object
-function calcPointWAngle(x0, y0, object) {
+function rotateAroundObject(x0, y0, object) {
     const degree = object.angle/180*Math.PI;
     const cos = Math.cos(degree);
     const sin = Math.sin(degree);
