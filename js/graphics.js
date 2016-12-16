@@ -1,5 +1,6 @@
 const area = document.getElementById("game");
 const brush = area.getContext("2d");
+brush.lineWidth = 2;
 
 //Draw all objects
 function drawAll() {
