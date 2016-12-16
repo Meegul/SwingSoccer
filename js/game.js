@@ -13,7 +13,8 @@ objects[0] = {
     lines: [[0,0,0,50],[0,50,-25,75],[0,50,25,75],[0,10,-25,10],[0,10,25,10]],
     circles: [[0, -25, 25]],
     height: 75,
-    width: 25
+    width: 25,
+    angle: 0
 };
 
 //Main game logic
@@ -83,6 +84,13 @@ function updateVelocities() {
         xChange -= 1;
     if (keysDown[87] && objects[0].y+objects[0].height == area.height - 1) //If w && object on ground, jump
         yChange -= 10;
+
+    //TESTING ANGLES
+    if (keysDown[69])
+        objects[0].angle++;
+    if (keysDown[81])
+        objects[0].angle--;
+
 
     //Calculates the new speeds
     objects[0].dx = objects[0].dx*friction + xChange;
