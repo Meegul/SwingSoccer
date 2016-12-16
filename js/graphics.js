@@ -31,7 +31,7 @@ function drawObject(object) {
     brush.stroke();
 }
 
-//Used to calculate angles after rotation
+//Used to calculate point after rotation
 //It is assumed that the rotation is around
 //the provided object
 function rotateAroundObject(x0, y0, object) {
