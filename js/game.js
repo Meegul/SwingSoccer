@@ -8,7 +8,9 @@ objects[0] = {
     y: 100,
     dx: 0,
     dy: 0,
-    lines: [[-100,-100,0,0], [0,0,-100,100], [-100,-100,-100,100]]
+    dxMax: 5,
+    dyMax: 20,
+    lines: [[-100,-100,0,0], [0,0,-100,0], [-100,-100,-100,0]]
 };
 
 //Main game logic
@@ -57,18 +59,37 @@ function resetVelocities() {
 //Checks to see what keys the user is pressing in order
 //to determine what direction to move
 function updateVelocities() {
-    resetVelocities();
+    const friction = .9; //Speeds get slowed by .1 every frame
+    const gravity = .5;
     let xChange = 0;
     let yChange = 0;
-    if (keysDown[68]) //If d, move right
+    if (keysDown[68]) //If d, increase speed right
         xChange += 1;
-    if (keysDown[65]) //If a, move left
+    if (keysDown[65]) //If a, increase speed left
         xChange -= 1;
-    if (keysDown[87]) //If w, move up
-        yChange -= 1;
-    if (keysDown[83]) //If s, move down
-        yChange += 1;
-    objects[0].dx += xChange;
-    objects[0].dy += yChange;
+    if (keysDown[87] && objects[0].y == area.height - 1) //If w && object on ground, jump
+        yChange -= 10;
+
+    //Calculates the new speeds
+    objects[0].dx = objects[0].dx*friction + xChange;
+    objects[0].dy = objects[0].dy + yChange + gravity;
+
+    //Checks if the object is going too fast and
+    //caps the speed, if necesary
+    if (objects[0].dx > objects[0].dxMax)
+        objects[0].dx = objects[0].dxMax;
+
+    if (objects[0].dx < objects[0].dxMax*-1)
+        objects[0].dx = objects[0].dxMax*-1;
+
+    if (objects[0].dy > objects[0].dyMax)
+        objects[0].dy = objects[0].dyMax;
+
+    if (objects[0].dy < objects[0].dyMax*-1)
+        objects[0].dy = objects[0].dyMax*-1;
+
+    //If we're on the ground and didn't jump, have no vertical velocity
+    if (yChange == 0 && objects[0].y == area.height -1)
+        objects[0].dy = 0;
 }
 
