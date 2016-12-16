@@ -2,18 +2,18 @@ let running = false;
 const objects = [];
 
 objects[0] = {
-    x0: 100,
-    y0: 100,
-    x: 100,
-    y: 100,
+    x0: 200,
+    y0: 200,
+    x: 200,
+    y: 200,
     dx: 0,
     dy: 0,
-    dxMax: 5,
-    dyMax: 20,
-    lines: [[0,0,0,50],[0,50,-25,75],[0,50,25,75],[0,10,-25,10],[0,10,25,10]],
-    circles: [[0, -25, 25]],
-    height: 75,
-    width: 25,
+    dxMax: 10,
+    dyMax: 40,
+    lines: [[0, 0, 0, 100], [0, 100, -50, 150], [0, 100, 50, 150], [0, 20, -50, 20], [0, 20, 50, 20]],
+    circles: [[0, -50, 50]],
+    height: 150,
+    width: 50,
     angle: 0
 };
 
@@ -36,16 +36,16 @@ function updateLocations() {
         on.y += on.dy;
 
         //Resolve errors that would've occurred
-        if (on.x+on.width >= area.width) {
-            on.x = area.width-1-on.width;
+        if (on.x + on.width > area.width) {
+            on.x = area.width - on.width;
             on.dx = 0;
         }
-        if (on.x-on.width < 0) {
-            on.x = 0+on.width;
+        if (on.x - on.width < 0) {
+            on.x = 0 + on.width;
             on.dx = 0;
         }
-        if (on.y+on.height >= area.height) {
-            on.y = area.height-1-on.height;
+        if (on.y + on.height > area.height) {
+            on.y = area.height - on.height;
             on.dy = 0;
         }
         if (on.y < 0) {
@@ -74,16 +74,16 @@ function resetVelocities() {
 //Checks to see what keys the user is pressing in order
 //to determine what direction to move
 function updateVelocities() {
-    const friction = .9; //Speeds get slowed by .1 every frame
-    const gravity = .5;
+    const friction = .86; //Speeds get slowed by .1 every frame
+    const gravity = 1.2;
     let xChange = 0;
     let yChange = 0;
     if (keysDown[68]) //If d, increase speed right
-        xChange += 1;
+        xChange += 2;
     if (keysDown[65]) //If a, increase speed left
-        xChange -= 1;
-    if (keysDown[87] && objects[0].y+objects[0].height == area.height - 1) //If w && object on ground, jump
-        yChange -= 10;
+        xChange -= 2;
+    if (keysDown[87] && objects[0].y + objects[0].height == area.height) //If w && object on ground, jump
+        yChange -= 25;
 
     //TESTING ANGLES
     if (keysDown[69])
@@ -93,25 +93,25 @@ function updateVelocities() {
 
 
     //Calculates the new speeds
-    objects[0].dx = objects[0].dx*friction + xChange;
+    objects[0].dx = objects[0].dx * friction + xChange;
     objects[0].dy = objects[0].dy + yChange + gravity;
 
     //Checks if the object is going too fast and
-    //caps the speed, if necesary
+    //caps the speed, if necessary
     if (objects[0].dx > objects[0].dxMax)
         objects[0].dx = objects[0].dxMax;
 
-    if (objects[0].dx < objects[0].dxMax*-1)
-        objects[0].dx = objects[0].dxMax*-1;
+    if (objects[0].dx < objects[0].dxMax * -1)
+        objects[0].dx = objects[0].dxMax * -1;
 
     if (objects[0].dy > objects[0].dyMax)
         objects[0].dy = objects[0].dyMax;
 
-    if (objects[0].dy < objects[0].dyMax*-1)
-        objects[0].dy = objects[0].dyMax*-1;
+    if (objects[0].dy < objects[0].dyMax * -1)
+        objects[0].dy = objects[0].dyMax * -1;
 
     //If we're on the ground and didn't jump, have no vertical velocity
-    if (yChange == 0 && objects[0].y+objects[0].height == area.height -1)
+    if (yChange == 0 && objects[0].y + objects[0].height == area.height)
         objects[0].dy = 0;
 }
 
