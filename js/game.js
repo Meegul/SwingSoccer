@@ -27,6 +27,14 @@ function updateLocations() {
     objects.forEach((on) => {
         on.x += on.dx;
         on.y += on.dy;
+        if (on.x >= area.width)
+            on.x = area.width-1;
+        if (on.x < 0)
+            on.x = 0;
+        if (on.y >= area.height)
+            on.y = area.height-1;
+        if (on.y < 0)
+            on.y = 0;
     });
 }
 
