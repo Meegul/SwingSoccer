@@ -30,16 +30,27 @@ const main = () => {
 //Use objects' velocities to move
 function updateLocations() {
     objects.forEach((on) => {
+        //Update locations
         on.x += on.dx;
         on.y += on.dy;
-        if (on.x+on.width >= area.width)
+
+        //Resolve errors that would've occurred
+        if (on.x+on.width >= area.width) {
             on.x = area.width-1-on.width;
-        if (on.x-on.width < 0)
+            on.dx = 0;
+        }
+        if (on.x-on.width < 0) {
             on.x = 0+on.width;
-        if (on.y+on.height >= area.height)
+            on.dx = 0;
+        }
+        if (on.y+on.height >= area.height) {
             on.y = area.height-1-on.height;
-        if (on.y < 0)
+            on.dy = 0;
+        }
+        if (on.y < 0) {
             on.y = 0;
+            on.dy = 0;
+        }
     });
 }
 
