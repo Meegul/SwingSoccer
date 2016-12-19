@@ -1,12 +1,19 @@
 const area = document.getElementById("game");
 const brush = area.getContext("2d");
-let cameraLocation = 0;
+const cameraLocation = {
+    x: 0,
+    y: 0,
+};
 
 function moveCamera() {
+    if (keysDown[40])
+        cameraLocation.y += 1;
     if (keysDown[39])
-        cameraLocation += 1;
+        cameraLocation.x += 1;
+    if (keysDown[38])
+        cameraLocation.y -= 1;
     if (keysDown[37])
-        cameraLocation -= 1;
+        cameraLocation.x -= 1;
 }
 
 
@@ -32,8 +39,8 @@ function drawObject(object) {
         object.lines.forEach((on) => {
             const startPoints = rotateAroundObject(on[0], on[1], object);
             const endPoints = rotateAroundObject(on[2], on[3], object);
-            brush.moveTo(startPoints[0] + cameraLocation, startPoints[1]);
-            brush.lineTo(endPoints[0] + cameraLocation, endPoints[1]);
+            brush.moveTo(startPoints[0] + cameraLocation.x, startPoints[1] + cameraLocation.y);
+            brush.lineTo(endPoints[0] + cameraLocation.x, endPoints[1] + cameraLocation.y);
         });
         brush.stroke();
     }
@@ -42,7 +49,7 @@ function drawObject(object) {
         brush.beginPath();
         object.circles.forEach((on) => {
             const pointsAfterRotation = rotateAroundObject(on[0], on[1], object);
-            brush.arc(pointsAfterRotation[0] + cameraLocation, pointsAfterRotation[1], on[2], 0, 2 * Math.PI);
+            brush.arc(pointsAfterRotation[0] + cameraLocation.x, pointsAfterRotation[1] + cameraLocation.y, on[2], 0, 2 * Math.PI);
         });
         brush.stroke();
     }

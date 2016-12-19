@@ -17,6 +17,8 @@ c.addEventListener("click", () => {
     resetLocations();
     resetVelocities();
     clear();
+    cameraLocation.x = 0;
+    cameraLocation.y = 0;
 });
 
 const keysDown = []; //All keys currently pressed.
