@@ -71,7 +71,7 @@ function updateVelocities() {
         xChange += 2;
     if (keysDown[65]) //If a, increase speed left
         xChange -= 2;
-    if (keysDown[87] && objects[0].y + objects[0].height == area.height) //If w && object on ground, jump
+    if (keysDown[87] && objects[0].y + objects[0].height === area.height) //If w && object on ground, jump
         yChange -= 25;
 
     //TESTING ANGLES
