@@ -14,19 +14,8 @@ objects[0] = {
     circles: [[0, -50, 50]],
     height: 150,
     width: 50,
-    angle: 0
+    angle: 0,
 };
-
-//Main game logic
-const main = () => {
-    if (running) {
-        clear();
-        drawAll();
-        updateLocations();
-        updateVelocities();
-        requestAnimationFrame(main);
-    }
-}
 
 //Use objects' velocities to move
 function updateLocations() {
@@ -74,7 +63,7 @@ function resetVelocities() {
 //Checks to see what keys the user is pressing in order
 //to determine what direction to move
 function updateVelocities() {
-    const friction = .86; //Speeds get slowed by .1 every frame
+    const friction = 0.86; //Speeds get slowed by .1 every frame
     const gravity = 1.2;
     let xChange = 0;
     let yChange = 0;
@@ -111,7 +100,17 @@ function updateVelocities() {
         objects[0].dy = objects[0].dyMax * -1;
 
     //If we're on the ground and didn't jump, have no vertical velocity
-    if (yChange == 0 && objects[0].y + objects[0].height == area.height)
+    if (yChange === 0 && objects[0].y + objects[0].height === area.height)
         objects[0].dy = 0;
 }
 
+//Main game logic
+const main = () => {
+    if (running) {
+        clear();
+        drawAll();
+        updateLocations();
+        updateVelocities();
+        requestAnimationFrame(main);
+    }
+};
