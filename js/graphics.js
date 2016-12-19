@@ -1,5 +1,14 @@
 const area = document.getElementById("game");
 const brush = area.getContext("2d");
+let cameraLocation = 0;
+
+function moveCamera() {
+    if (keysDown[39])
+        cameraLocation += 1;
+    if (keysDown[37])
+        cameraLocation -= 1;
+}
+
 
 //Used to calculate point after rotation
 //It is assumed that the rotation is around
@@ -18,21 +27,25 @@ function rotateAroundObject(x0, y0, object) {
 
 //Draw a single object
 function drawObject(object) {
-    brush.beginPath();
-    object.lines.forEach((on) => {
-        const startPoints = rotateAroundObject(on[0], on[1], object);
-        const endPoints = rotateAroundObject(on[2], on[3], object);
-        brush.moveTo(startPoints[0], startPoints[1]);
-        brush.lineTo(endPoints[0], endPoints[1]);
-    });
-    brush.stroke();
+    if (object.lines) {
+        brush.beginPath();
+        object.lines.forEach((on) => {
+            const startPoints = rotateAroundObject(on[0], on[1], object);
+            const endPoints = rotateAroundObject(on[2], on[3], object);
+            brush.moveTo(startPoints[0] + cameraLocation, startPoints[1]);
+            brush.lineTo(endPoints[0] + cameraLocation, endPoints[1]);
+        });
+        brush.stroke();
+    }
 
-    brush.beginPath();
-    object.circles.forEach((on) => {
-        const pointsAfterRotation = rotateAroundObject(on[0], on[1], object);
-        brush.arc(pointsAfterRotation[0], pointsAfterRotation[1], on[2], 0, 2 * Math.PI);
-    });
-    brush.stroke();
+    if (object.circles) {
+        brush.beginPath();
+        object.circles.forEach((on) => {
+            const pointsAfterRotation = rotateAroundObject(on[0], on[1], object);
+            brush.arc(pointsAfterRotation[0] + cameraLocation, pointsAfterRotation[1], on[2], 0, 2 * Math.PI);
+        });
+        brush.stroke();
+    }
 }
 
 //Draw all objects

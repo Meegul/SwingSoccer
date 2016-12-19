@@ -17,6 +17,22 @@ objects[0] = {
     angle: 0,
 };
 
+objects[1] = {
+    x0: 0,
+    y0: 0,
+    x: 0,
+    y: 0,
+    dx: 0,
+    dy: 0,
+    dxMax: 0,
+    dyMax: 0,
+    lines: [[0, 0, 1000, 0], [1000, 0, 1000, 1000], [1000, 1000, 0, 1000], [0, 1000, 0, 0]],
+    height: 0,
+    width: 0,
+    angle: 0,
+};
+
+
 //Use objects' velocities to move
 function updateLocations() {
     objects.forEach((on) => {
@@ -109,6 +125,7 @@ const main = () => {
     if (running) {
         clear();
         drawAll();
+        moveCamera();
         updateLocations();
         updateVelocities();
         requestAnimationFrame(main);
