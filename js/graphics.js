@@ -26,6 +26,7 @@ function drawObject(object) {
         brush.lineTo(endPoints[0], endPoints[1]);
     });
     brush.stroke();
+
     brush.beginPath();
     object.circles.forEach((on) => {
         const pointsAfterRotation = rotateAroundObject(on[0], on[1], object);
