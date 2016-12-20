@@ -1,7 +1,7 @@
 let running = false;
 const objects = [];
 
-objects[0] = {
+objects[0] = { //Stick figure
     x0: 200,
     y0: 200,
     x: 200,
@@ -17,7 +17,7 @@ objects[0] = {
     angle: 0,
 };
 
-objects[1] = {
+objects[1] = { //Border
     x0: 0,
     y0: 0,
     x: 0,
