@@ -18,12 +18,13 @@ function moveCamera() {
     */
 
     //Testing: Making camera follow an object
-    if (objects[0].x < area.width/2)
+    if (objects[0].x < area.width / 2)
         cameraLocation.x = 0;
-    else if (mapWidth - objects[0].x < area.width/2)
+    else if (mapWidth - objects[0].x < area.width / 2)
         cameraLocation.x = mapWidth - area.width;
-    else cameraLocation.x = objects[0].x - area.width/2;
+    else cameraLocation.x = objects[0].x - area.width / 2;
 }
+
 
 
 //Used to calculate point after rotation

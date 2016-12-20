@@ -34,7 +34,6 @@ objects[1] = { //Border
     angle: 0,
 };
 
-
 //Use objects' velocities to move
 function updateLocations() {
     objects.forEach((on) => {
