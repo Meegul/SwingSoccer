@@ -6,6 +6,7 @@ const cameraLocation = {
 };
 
 function moveCamera() {
+    /*
     if (keysDown[40])
         cameraLocation.y += 1;
     if (keysDown[39])
@@ -14,6 +15,14 @@ function moveCamera() {
         cameraLocation.y -= 1;
     if (keysDown[37])
         cameraLocation.x -= 1;
+    */
+
+    //Testing: Making camera follow an object
+    if (objects[0].x < area.width/2)
+        cameraLocation.x = 0;
+    else if (mapWidth - objects[0].x < area.width/2)
+        cameraLocation.x = mapWidth - area.width;
+    else cameraLocation.x = objects[0].x - area.width/2;
 }
 
 
@@ -43,8 +52,8 @@ function drawObject(object) {
             const endPoints = rotateAroundObject(on[2], on[3], object);
             
             //Move the brush to the proper location, with camera offset.
-            brush.moveTo(startPoints[0] + cameraLocation.x, startPoints[1] + cameraLocation.y);
-            brush.lineTo(endPoints[0] + cameraLocation.x, endPoints[1] + cameraLocation.y);
+            brush.moveTo(startPoints[0] - cameraLocation.x, startPoints[1] + cameraLocation.y);
+            brush.lineTo(endPoints[0] - cameraLocation.x, endPoints[1] + cameraLocation.y);
         });
         //Display the result
         brush.stroke();
@@ -58,7 +67,7 @@ function drawObject(object) {
             const pointsAfterRotation = rotateAroundObject(on[0], on[1], object);
 
             //Move the brush to the proper location, with camera offset.
-            brush.arc(pointsAfterRotation[0] + cameraLocation.x, pointsAfterRotation[1] + cameraLocation.y, on[2], 0, 2 * Math.PI);
+            brush.arc(pointsAfterRotation[0] - cameraLocation.x, pointsAfterRotation[1] + cameraLocation.y, on[2], 0, 2 * Math.PI);
         });
         //Display the result
         brush.stroke();

@@ -1,11 +1,13 @@
 let running = false;
 const objects = [];
+const mapWidth = 2000;
+const mapHeight = 1000;
 
 objects[0] = { //Stick figure
-    x0: 200,
-    y0: 200,
-    x: 200,
-    y: 200,
+    x0: 500,
+    y0: 500,
+    x: 500,
+    y: 500,
     dx: 0,
     dy: 0,
     dxMax: 10,
@@ -26,7 +28,7 @@ objects[1] = { //Border
     dy: 0,
     dxMax: 0,
     dyMax: 0,
-    lines: [[0, 0, 1000, 0], [1000, 0, 1000, 1000], [1000, 1000, 0, 1000], [0, 1000, 0, 0]],
+    lines: [[0, 0, 2000, 0], [2000, 0, 2000, 1000], [2000, 1000, 0, 1000], [0, 1000, 0, 0]],
     height: 0,
     width: 0,
     angle: 0,
@@ -41,14 +43,14 @@ function updateLocations() {
         on.y += on.dy;
 
         //Resolve errors that would've occurred
-        if (on.x + on.width > area.width) {
+        /*if (on.x + on.width > area.width) {
             on.x = area.width - on.width;
             on.dx = 0;
         }
         if (on.x - on.width < 0) {
             on.x = 0 + on.width;
             on.dx = 0;
-        }
+        }*/
         if (on.y + on.height > area.height) {
             on.y = area.height - on.height;
             on.dy = 0;
