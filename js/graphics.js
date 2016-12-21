@@ -35,34 +35,57 @@ function rotateAroundObject(x0, y0, object) {
 function drawObject(object) {
     //Draw the lines for the object
     if (object.lines) {
-        brush.beginPath();
+        
         object.lines.forEach((on) => {
+            brush.beginPath();
+
             //Calculate the points after rotation
             const startPoints = rotateAroundObject(on[0], on[1], object);
             const endPoints = rotateAroundObject(on[2], on[3], object);
 
+            //Set the color of the line. Default to black.
+            if (on[4]) {
+                brush.strokeStyle = on[4];
+            } else brush.strokeStyle = "#000";
+
             //Move the brush to the proper location, with camera offset.
             brush.moveTo(startPoints[0] - cameraLocation.x, startPoints[1] + cameraLocation.y);
             brush.lineTo(endPoints[0] - cameraLocation.x, endPoints[1] + cameraLocation.y);
+
+            //Display the result
+            brush.stroke();
         });
-        //Display the result
-        brush.stroke();
     }
 
     //Draw the circles for the object
     if (object.circles) {
-        brush.beginPath();
         object.circles.forEach((on) => {
+            brush.beginPath();
+
             //Calculate the points after rotation
             const pointsAfterRotation = rotateAroundObject(on[0], on[1], object);
+
+            //Set the color of the line. Default to black.
+            if (on[3]) {
+                brush.fillStyle = on[3];
+                brush.strokeStyle = on[3];
+            } else {
+                brush.fillStyle = "#000";
+                brush.strokeStyle = "#000";
+            }
 
             //Move the brush to the proper location, with camera offset.
             brush.arc(pointsAfterRotation[0] - cameraLocation.x,
                 pointsAfterRotation[1] + cameraLocation.y,
                 on[2], 0, 2 * Math.PI);
+            
+            //Display the line
+            brush.stroke();
+
+            //Fill, if directed
+            if (on[4])
+                brush.fill();
         });
-        //Display the result
-        brush.stroke();
     }
 }
 
