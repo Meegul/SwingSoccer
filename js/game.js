@@ -94,16 +94,16 @@ function updateLocations() {
         on.y += on.dy;
 
         //Resolve errors that would've occurred
-        /*if (on.x + on.width > area.width) {
-            on.x = area.width - on.width;
+        if (on.x + on.width > mapWidth) {
+            on.x = mapWidth - on.width;
             on.dx = 0;
         }
         if (on.x - on.width < 0) {
             on.x = 0 + on.width;
             on.dx = 0;
-        }*/
-        if (on.y + on.height > area.height) {
-            on.y = area.height - on.height;
+        }
+        if (on.y + on.height > mapHeight) {
+            on.y = mapHeight - on.height;
             on.dy = 0;
         }
         if (on.y < 0) {
