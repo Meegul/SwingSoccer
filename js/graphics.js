@@ -6,18 +6,6 @@ const cameraLocation = {
 };
 
 function moveCamera() {
-    /*
-    if (keysDown[40])
-        cameraLocation.y += 1;
-    if (keysDown[39])
-        cameraLocation.x += 1;
-    if (keysDown[38])
-        cameraLocation.y -= 1;
-    if (keysDown[37])
-        cameraLocation.x -= 1;
-    */
-
-    //Testing: Making camera follow an object
     if (objects[0].x < area.width / 2)
         cameraLocation.x = 0;
     else if (mapWidth - objects[0].x < area.width / 2)
