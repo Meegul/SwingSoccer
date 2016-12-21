@@ -132,3 +132,22 @@ const main = () => {
         requestAnimationFrame(main);
     }
 };
+
+const init = () => {
+    const smallerDimension = (window.innerWidth < window.innerHeight) ? window.innerHeight : window.innerHeight;
+    const canvas = document.getElementById("game");
+    canvas.style.width = smallerDimension - 2;
+    canvas.style.height = smallerDimension - 2;
+    running = true;
+    main();
+};
+
+const resize = () => {
+    const smallerDimension = (window.innerWidth < window.innerHeight) ? window.innerHeight : window.innerHeight;
+    const canvas = document.getElementById("game");
+    canvas.style.width = smallerDimension - 2;
+    canvas.style.height = smallerDimension - 2;
+};
+
+window.onload = init;
+window.onresize = resize;
