@@ -28,7 +28,10 @@ function rotateAroundObject(x0, y0, object) {
     const dy = y0 * cos + x0 * sin;
     const xAfter = dx + object.x;
     const yAfter = dy + object.y;
-    return [xAfter, yAfter];
+    return {
+        x: xAfter,
+        y: yAfter,
+    };
 }
 
 //Draw a single object
@@ -39,17 +42,17 @@ function drawObject(object) {
             brush.beginPath();
 
             //Calculate the points after rotation
-            const startPoints = rotateAroundObject(on[0], on[1], object);
-            const endPoints = rotateAroundObject(on[2], on[3], object);
+            const startPoints = rotateAroundObject(on.x0, on.y0, object);
+            const endPoints = rotateAroundObject(on.x1, on.y1, object);
 
             //Set the color of the line. Default to black.
-            if (on[4]) {
-                brush.strokeStyle = on[4];
+            if (on.color) {
+                brush.strokeStyle = on.color;
             } else brush.strokeStyle = "#000";
 
             //Move the brush to the proper location, with camera offset.
-            brush.moveTo(startPoints[0] - cameraLocation.x, startPoints[1] + cameraLocation.y);
-            brush.lineTo(endPoints[0] - cameraLocation.x, endPoints[1] + cameraLocation.y);
+            brush.moveTo(startPoints.x - cameraLocation.x, startPoints.y + cameraLocation.y);
+            brush.lineTo(endPoints.x - cameraLocation.x, endPoints.y + cameraLocation.y);
 
             //Display the result
             brush.stroke();
@@ -74,8 +77,8 @@ function drawObject(object) {
             }
 
             //Move the brush to the proper location, with camera offset.
-            brush.arc(pointsAfterRotation[0] - cameraLocation.x,
-                pointsAfterRotation[1] + cameraLocation.y,
+            brush.arc(pointsAfterRotation.x - cameraLocation.x,
+                pointsAfterRotation.y + cameraLocation.y,
                 on.radius, 0, 2 * Math.PI);
 
             //Display the line
