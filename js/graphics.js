@@ -62,12 +62,12 @@ function drawObject(object) {
             brush.beginPath();
 
             //Calculate the points after rotation
-            const pointsAfterRotation = rotateAroundObject(on[0], on[1], object);
+            const pointsAfterRotation = rotateAroundObject(on.x0, on.y0, object);
 
             //Set the color of the line. Default to black.
-            if (on[3]) {
-                brush.fillStyle = on[3];
-                brush.strokeStyle = on[3];
+            if (on.color) {
+                brush.fillStyle = on.color;
+                brush.strokeStyle = on.color;
             } else {
                 brush.fillStyle = "#000";
                 brush.strokeStyle = "#000";
@@ -76,13 +76,13 @@ function drawObject(object) {
             //Move the brush to the proper location, with camera offset.
             brush.arc(pointsAfterRotation[0] - cameraLocation.x,
                 pointsAfterRotation[1] + cameraLocation.y,
-                on[2], 0, 2 * Math.PI);
+                on.radius, 0, 2 * Math.PI);
 
             //Display the line
             brush.stroke();
 
             //Fill, if directed
-            if (on[4])
+            if (on.fill)
                 brush.fill();
         });
     }
