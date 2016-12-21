@@ -35,7 +35,6 @@ function rotateAroundObject(x0, y0, object) {
 function drawObject(object) {
     //Draw the lines for the object
     if (object.lines) {
-        
         object.lines.forEach((on) => {
             brush.beginPath();
 
@@ -78,7 +77,7 @@ function drawObject(object) {
             brush.arc(pointsAfterRotation[0] - cameraLocation.x,
                 pointsAfterRotation[1] + cameraLocation.y,
                 on[2], 0, 2 * Math.PI);
-            
+
             //Display the line
             brush.stroke();
 
