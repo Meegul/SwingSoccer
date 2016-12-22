@@ -1,9 +1,13 @@
 const area = document.getElementById("game");
 const brush = area.getContext("2d");
+<<<<<<< HEAD
+brush.lineWidth = 2;
+=======
 const cameraLocation = {
     x: 0,
     y: 0,
 };
+>>>>>>> origin/master
 
 function moveCamera() {
     //The camera will follow object[0]
