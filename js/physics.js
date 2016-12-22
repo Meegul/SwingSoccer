@@ -15,8 +15,15 @@ function updateLocations() {
             on.dx = 0;
         }
         if (on.y + on.height > mapHeight) {
-            on.y = mapHeight - on.height;
-            on.dy = 0;
+            if (on.ball) {
+                //Bounce when colliding with the ground
+                on.angle += on.dx;
+                on.y -= 1;
+                on.dy = -1 * on.dy / 2;
+            } else {
+                on.y = mapHeight - on.height;
+                on.dy = 0;
+            }
         }
         if (on.y < 0) {
             on.y = 0;
@@ -25,7 +32,7 @@ function updateLocations() {
     });
 }
 
-//Resest all objects' locations to the origin
+//Reset all objects' locations to the origin
 function resetLocations() {
     objects.forEach((on) => {
         on.x = on.x0;
