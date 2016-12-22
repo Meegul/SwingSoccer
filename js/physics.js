@@ -14,12 +14,17 @@ function updateLocations() {
             on.x = 0 + on.width;
             on.dx = 0;
         }
-        if (on.y + on.height > mapHeight) {
+        if (on.y + on.height >= mapHeight) {
             if (on.ball) {
-                //Bounce when colliding with the ground
                 on.angle += on.dx;
-                on.y -= 1;
-                on.dy = -1 * on.dy / 2;
+
+                //Bounce when colliding with the ground
+                if (Math.abs(on.dy) < 1) {
+                    on.y = mapHeight - on.height;
+                    on.dy = 0;
+                } else {
+                    on.dy = -1 * on.dy / 2;
+                }
             } else {
                 on.y = mapHeight - on.height;
                 on.dy = 0;
