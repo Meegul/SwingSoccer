@@ -43,17 +43,22 @@ let lastFrames = 0; //Frames last second
 let frames = 0; //Frames this second
 let timeSinceLastFrame = 0; //Time in between frames
 let totalTimeToRender = 0; //Time in between frames + render time
+let maxTotalTime = 0;
 function debugData(timeStart, timeEnd) {
     if (timeEnd - startSecond >= 1000) { //Collect frames for a second
         lastFrames = frames;
         frames = 0;
         startSecond = timeEnd;
+        maxTotalTime = totalTimeToRender;
     }
     frames++;
     timeSinceLastFrame = timeStart - lastFrameEnd;
     totalTimeToRender = timeEnd - lastFrameEnd;
+    if (maxTotalTime < totalTimeToRender) {
+        maxTotalTime = totalTimeToRender;
+    }
     lastFrameEnd = timeEnd;
-    drawFrameTime(timeEnd - timeStart, lastFrames, timeSinceLastFrame, totalTimeToRender);
+    drawFrameTime(timeEnd - timeStart, lastFrames, timeSinceLastFrame, totalTimeToRender, maxTotalTime);
 }
 
 //Main game logic
