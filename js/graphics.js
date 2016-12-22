@@ -47,29 +47,6 @@ function drawBackground(color) {
 
 //Draw a single object
 function drawObject(object) {
-    //Draw the lines for the object
-    if (object.lines) {
-        object.lines.forEach((on) => {
-            brush.beginPath();
-
-            //Calculate the points after rotation
-            const startPoints = rotateAroundObject(on.x0, on.y0, object);
-            const endPoints = rotateAroundObject(on.x1, on.y1, object);
-
-            //Set the color of the line. Default to black.
-            if (on.color) {
-                brush.strokeStyle = on.color;
-            } else brush.strokeStyle = "#000";
-
-            //Move the brush to the proper location, with camera offset.
-            brush.moveTo(startPoints.x - cameraLocation.x, startPoints.y + cameraLocation.y);
-            brush.lineTo(endPoints.x - cameraLocation.x, endPoints.y + cameraLocation.y);
-
-            //Display the result
-            brush.stroke();
-        });
-    }
-
     //Draw the circles for the object
     if (object.circles) {
         object.circles.forEach((on) => {
@@ -100,6 +77,29 @@ function drawObject(object) {
                 brush.fill();
         });
     }
+
+    //Draw the lines for the object
+    if (object.lines) {
+        object.lines.forEach((on) => {
+            brush.beginPath();
+
+            //Calculate the points after rotation
+            const startPoints = rotateAroundObject(on.x0, on.y0, object);
+            const endPoints = rotateAroundObject(on.x1, on.y1, object);
+
+            //Set the color of the line. Default to black.
+            if (on.color) {
+                brush.strokeStyle = on.color;
+            } else brush.strokeStyle = "#000";
+
+            //Move the brush to the proper location, with camera offset.
+            brush.moveTo(startPoints.x - cameraLocation.x, startPoints.y + cameraLocation.y);
+            brush.lineTo(endPoints.x - cameraLocation.x, endPoints.y + cameraLocation.y);
+
+            //Display the result
+            brush.stroke();
+        });
+    }
 }
 
 //Draw the time
@@ -117,9 +117,16 @@ function drawFrameTime(time, lastFrames) {
     brush.fillText(`${time}ms`, 800, 80);
 }
 
+function drawBorder() {
+    brush.strokeStyle = "#000";
+    brush.rect(0, 0, mapWidth, mapHeight);
+    brush.stroke();
+}
+
 //Draw all objects
 function drawAll() {
     drawBackground(backgroundColor);
+    drawBorder();
     objects.forEach((on) => {
         drawObject(on);
     });

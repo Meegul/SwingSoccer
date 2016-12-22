@@ -51,8 +51,7 @@ const main = () => {
         clear();
         drawAll();
         moveCamera();
-        updateLocations();
-        updateVelocities();
+        doPhysics();
         updateTime();
         if (debug) {
             frameEnd = new Date().getTime();
