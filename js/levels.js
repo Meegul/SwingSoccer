@@ -1,6 +1,7 @@
 const level0 = {
     mapWidth: 2000,
     mapHeight: 1000,
+    backgroundColor: "#999",
     objects: [{ //Stick figure
         x0: 500,
         y0: 500,

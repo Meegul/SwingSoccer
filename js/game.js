@@ -2,6 +2,7 @@ let running = false;
 let objects = [];
 let mapWidth = 0;
 let mapHeight = 0;
+let backgroundColor = "#000";
 
 //Use objects' velocities to move
 function updateLocations() {
@@ -97,6 +98,7 @@ function loadLevel(levelNumber) {
     case 0:
         mapWidth = level0.mapWidth;
         mapHeight = level0.mapHeight;
+        backgroundColor = level0.backgroundColor;
         objects = level0.objects;
         break;
     default:

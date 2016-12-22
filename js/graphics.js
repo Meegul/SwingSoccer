@@ -35,6 +35,16 @@ function rotateAroundObject(x0, y0, object) {
     };
 }
 
+//Draw the background color
+function drawBackground(color) {
+    if (color) {
+        brush.fillStyle = color;
+    } else {
+        brush.fillStyle = "#000";
+    }
+    brush.fillRect(0, 0, area.width, area.height);
+}
+
 //Draw a single object
 function drawObject(object) {
     //Draw the lines for the object
@@ -94,6 +104,7 @@ function drawObject(object) {
 
 //Draw all objects
 function drawAll() {
+    drawBackground(backgroundColor);
     objects.forEach((on) => {
         drawObject(on);
     });
