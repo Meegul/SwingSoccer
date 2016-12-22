@@ -1,32 +1,90 @@
 let running = false;
 const objects = [];
+const mapWidth = 2000;
+const mapHeight = 1000;
 
-objects[0] = {
-    x0: 200,
-    y0: 200,
-    x: 200,
-    y: 200,
+objects[0] = { //Stick figure
+    x0: 500,
+    y0: 500,
+    x: 500,
+    y: 500,
     dx: 0,
     dy: 0,
     dxMax: 10,
     dyMax: 40,
-    lines: [[0, 0, 0, 100], [0, 100, -50, 150], [0, 100, 50, 150], [0, 20, -50, 20], [0, 20, 50, 20]],
-    circles: [[0, -50, 50]],
+    lines: [{
+        x0: 0,
+        y0: 0,
+        x1: 0,
+        y1: 100,
+        color: "#FF0000",
+    }, {
+        x0: 0,
+        y0: 100,
+        x1: -50,
+        y1: 150,
+    }, {
+        x0: 0,
+        y0: 100,
+        x1: 50,
+        y1: 150,
+    }, {
+        x0: 0,
+        y0: 20,
+        x1: -50,
+        y1: 20,
+    }, {
+        x0: 0,
+        y0: 20,
+        x1: 50,
+        y1: 20,
+    }],
+    circles: [{
+        x0: 0,
+        y0: -50,
+        radius: 50,
+        color: "#FF0000",
+        fill: true,
+    }],
     height: 150,
     width: 50,
-    angle: 0
+    angle: 0,
 };
 
-//Main game logic
-const main = () => {
-    if (running) {
-        clear();
-        drawAll();
-        updateLocations();
-        updateVelocities();
-        requestAnimationFrame(main);
-    }
-}
+objects[1] = { //Border
+    x0: 0,
+    y0: 0,
+    x: 0,
+    y: 0,
+    dx: 0,
+    dy: 0,
+    dxMax: 0,
+    dyMax: 0,
+    lines: [{
+        x0: 0,
+        y0: 0,
+        x1: 2000,
+        y1: 0,
+    }, {
+        x0: 2000,
+        y0: 0,
+        x1: 2000,
+        y1: 1000,
+    }, {
+        x0: 2000,
+        y0: 1000,
+        x1: 0,
+        y1: 1000,
+    }, {
+        x0: 0,
+        y0: 1000,
+        x1: 0,
+        y1: 0,
+    }],
+    height: 0,
+    width: 0,
+    angle: 0,
+};
 
 //Use objects' velocities to move
 function updateLocations() {
@@ -36,16 +94,16 @@ function updateLocations() {
         on.y += on.dy;
 
         //Resolve errors that would've occurred
-        if (on.x + on.width > area.width) {
-            on.x = area.width - on.width;
+        if (on.x + on.width > mapWidth) {
+            on.x = mapWidth - on.width;
             on.dx = 0;
         }
         if (on.x - on.width < 0) {
             on.x = 0 + on.width;
             on.dx = 0;
         }
-        if (on.y + on.height > area.height) {
-            on.y = area.height - on.height;
+        if (on.y + on.height > mapHeight) {
+            on.y = mapHeight - on.height;
             on.dy = 0;
         }
         if (on.y < 0) {
@@ -74,7 +132,7 @@ function resetVelocities() {
 //Checks to see what keys the user is pressing in order
 //to determine what direction to move
 function updateVelocities() {
-    const friction = .86; //Speeds get slowed by .1 every frame
+    const friction = 0.86; //Speeds get slowed by .1 every frame
     const gravity = 1.2;
     let xChange = 0;
     let yChange = 0;
@@ -82,7 +140,7 @@ function updateVelocities() {
         xChange += 2;
     if (keysDown[65]) //If a, increase speed left
         xChange -= 2;
-    if (keysDown[87] && objects[0].y + objects[0].height == area.height) //If w && object on ground, jump
+    if (keysDown[87] && objects[0].y + objects[0].height === area.height) //If w && object on ground, jump
         yChange -= 25;
 
     //TESTING ANGLES
@@ -111,7 +169,34 @@ function updateVelocities() {
         objects[0].dy = objects[0].dyMax * -1;
 
     //If we're on the ground and didn't jump, have no vertical velocity
-    if (yChange == 0 && objects[0].y + objects[0].height == area.height)
+    if (yChange === 0 && objects[0].y + objects[0].height === area.height)
         objects[0].dy = 0;
 }
 
+//Main game logic
+const main = () => {
+    if (running) {
+        clear();
+        drawAll();
+        moveCamera();
+        updateLocations();
+        updateVelocities();
+        requestAnimationFrame(main);
+    }
+};
+
+const resize = () => {
+    const smallerDimension = (window.innerWidth < window.innerHeight) ? window.innerHeight : window.innerHeight;
+    const canvas = document.getElementById("game");
+    canvas.style.width = smallerDimension - 2;
+    canvas.style.height = smallerDimension - 2;
+};
+
+const init = () => {
+    resize();
+    running = true;
+    main();
+};
+
+window.onload = init;
+window.onresize = resize;

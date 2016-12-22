@@ -2,10 +2,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0;
 }
 
 canvas {
     width: 500px;
     height: 500px;
+}
+
+#border {
     border: 1px solid black;
 }

@@ -1,0 +1,14 @@
+{
+    "rules": {
+        "indent": ["error", 4],
+        "no-undef": 1,
+        "spaced-comment": 0,
+        "no-param-reassign": 1,
+        "no-unused-vars": 1,
+        "curly": 1,
+        "no-plusplus": 0,
+        "no-mixed-operators": 0,
+        "quotes": ["error", "double"]
+    },
+    "extends": "airbnb"
+}
