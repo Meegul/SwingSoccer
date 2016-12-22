@@ -6,6 +6,7 @@ const c = document.getElementById("clear"); //Clear button
 r.addEventListener("click", () => {
     if (!running) {
         running = true;
+        startGame();
         main();
     }
 });
@@ -14,6 +15,7 @@ r.addEventListener("click", () => {
 //reset everything.
 c.addEventListener("click", () => {
     running = false;
+    started = false;
     resetLocations();
     resetVelocities();
     clear();
