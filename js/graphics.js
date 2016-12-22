@@ -110,11 +110,10 @@ function drawTime() {
     brush.fillText(`Time remaining: ${secondsLeft}`, 50, 50);
 }
 
-function drawFrameTime(time) {
+function drawFrameTime(time, lastFrames) {
     brush.font = "30px Arial";
     brush.fillStyle = "#000";
-    const fps = (time === 0) ? ">999" : 1000 / time;
-    brush.fillText(`${fps}fps`, 800, 50);
+    brush.fillText(`${lastFrames}fps`, 800, 50);
     brush.fillText(`${time}ms`, 800, 80);
 }
 

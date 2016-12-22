@@ -122,10 +122,15 @@ function startGame() {
     endTime = startTime + gameDuration;
 }
 
-//Main game logic
+//Debugging variables
 const debug = true;
-let frameStart = 0;
-let frameEnd = 0;
+let startSecond = 0; //Used for FPS calc
+let lastFrames = 0; //Frames last second
+let frames = 0; //Frames this second
+let frameStart = 0; //When a frame began
+let frameEnd = 0; //When a frame ended
+
+//Main game logic
 const main = () => {
     if (running) {
         if (debug)
@@ -138,7 +143,13 @@ const main = () => {
         updateTime();
         if (debug) {
             frameEnd = new Date().getTime();
-            drawFrameTime(frameEnd - frameStart);
+            if (frameEnd - startSecond >= 1000) {
+                lastFrames = frames;
+                frames = 0;
+                startSecond = frameEnd;
+            }
+            frames++;
+            drawFrameTime(frameEnd - frameStart, lastFrames);
         }
         requestAnimationFrame(main);
     }
