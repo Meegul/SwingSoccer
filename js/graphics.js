@@ -102,12 +102,29 @@ function drawObject(object) {
     }
 }
 
+//Draw the time
+function drawTime() {
+    brush.font = "30px Arial";
+    brush.fillStyle = "#000";
+    const secondsLeft = timeRemaining / 1000;
+    brush.fillText(`Time remaining: ${secondsLeft}`, 50, 50);
+}
+
+function drawFrameTime(time) {
+    brush.font = "30px Arial";
+    brush.fillStyle = "#000";
+    const fps = (time === 0) ? ">999" : 1000 / time;
+    brush.fillText(`${fps}fps`, 800, 50);
+    brush.fillText(`${time}ms`, 800, 80);
+}
+
 //Draw all objects
 function drawAll() {
     drawBackground(backgroundColor);
     objects.forEach((on) => {
         drawObject(on);
     });
+    drawTime();
 }
 
 //Clear the canvas

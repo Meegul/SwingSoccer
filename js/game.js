@@ -1,8 +1,12 @@
-let running = false;
+let running = false; //Whether the game is being rendered
+let started = false; //Whether the actual game is in progress
 let objects = [];
 let mapWidth = 0;
 let mapHeight = 0;
 let backgroundColor = "#000";
+let startTime = 0;
+let endTime = 10000;
+let timeRemaining = 0;
 
 //Use objects' velocities to move
 function updateLocations() {
@@ -29,6 +33,11 @@ function updateLocations() {
             on.dy = 0;
         }
     });
+}
+
+function updateTime() {
+    const timeNow = new Date().getTime();
+    timeRemaining = endTime - timeNow;
 }
 
 //Resest all objects' locations to the origin
@@ -107,14 +116,30 @@ function loadLevel(levelNumber) {
     running = true;
 }
 
+function startGame() {
+    const gameDuration = 60 * 1000; //60 seconds
+    startTime = new Date().getTime();
+    endTime = startTime + gameDuration;
+}
+
 //Main game logic
+const debug = true;
+let frameStart = 0;
+let frameEnd = 0;
 const main = () => {
     if (running) {
+        if (debug)
+            frameStart = new Date().getTime();
         clear();
         drawAll();
         moveCamera();
         updateLocations();
         updateVelocities();
+        updateTime();
+        if (debug) {
+            frameEnd = new Date().getTime();
+            drawFrameTime(frameEnd - frameStart);
+        }
         requestAnimationFrame(main);
     }
 };
@@ -129,6 +154,7 @@ const resize = () => {
 const init = () => {
     resize();
     loadLevel(0);
+    startGame();
     main();
 };
 
