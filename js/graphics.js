@@ -110,11 +110,13 @@ function drawTime() {
     brush.fillText(`Time remaining: ${secondsLeft}`, 50, 50);
 }
 
-function drawFrameTime(time, lastFrames) {
+function drawFrameTime(time, lastFrames, timeSinceLastFrame, totalRenderTime) {
     brush.font = "30px Arial";
     brush.fillStyle = "#000";
-    brush.fillText(`${lastFrames}fps`, 800, 50);
-    brush.fillText(`${time}ms`, 800, 80);
+    brush.fillText(`Current fps: ${lastFrames}fps`, 650, 50);
+    brush.fillText(`Frame time: ${time}ms`, 650, 80);
+    brush.fillText(`In between frames: ${timeSinceLastFrame}ms`, 650, 110);
+    brush.fillText(`Total time: ${totalRenderTime}ms`, 650, 140);
 }
 
 function drawBorder() {

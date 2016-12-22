@@ -38,30 +38,36 @@ function startGame() {
 //Debugging variables
 const debug = true;
 let startSecond = 0; //Used for FPS calc
+let lastFrameEnd = 0; //When the last frame ended
 let lastFrames = 0; //Frames last second
 let frames = 0; //Frames this second
-let frameStart = 0; //When a frame began
-let frameEnd = 0; //When a frame ended
+let timeSinceLastFrame = 0; //Time in between frames
+let totalTimeToRender = 0; //Time in between frames + render time
+function debugData(timeStart, timeEnd) {
+    if (timeEnd - startSecond >= 1000) { //Collect frames for a second
+        lastFrames = frames;
+        frames = 0;
+        startSecond = timeEnd;
+    }
+    frames++;
+    timeSinceLastFrame = timeStart - lastFrameEnd;
+    totalTimeToRender = timeEnd - lastFrameEnd;
+    lastFrameEnd = timeEnd;
+    drawFrameTime(timeEnd - timeStart, lastFrames, timeSinceLastFrame, totalTimeToRender);
+}
 
 //Main game logic
 const main = () => {
     if (running) {
-        if (debug)
-            frameStart = new Date().getTime();
+        const frameStart = new Date().getTime();
         clear();
         drawAll();
         moveCamera();
         doPhysics();
         updateTime();
+        const frameEnd = new Date().getTime();
         if (debug) {
-            frameEnd = new Date().getTime();
-            if (frameEnd - startSecond >= 1000) {
-                lastFrames = frames;
-                frames = 0;
-                startSecond = frameEnd;
-            }
-            frames++;
-            drawFrameTime(frameEnd - frameStart, lastFrames);
+            debugData(frameStart, frameEnd);
         }
         requestAnimationFrame(main);
     }
