@@ -1,90 +1,7 @@
 let running = false;
-const objects = [];
-const mapWidth = 2000;
-const mapHeight = 1000;
-
-objects[0] = { //Stick figure
-    x0: 500,
-    y0: 500,
-    x: 500,
-    y: 500,
-    dx: 0,
-    dy: 0,
-    dxMax: 10,
-    dyMax: 40,
-    lines: [{
-        x0: 0,
-        y0: 0,
-        x1: 0,
-        y1: 100,
-        color: "#FF0000",
-    }, {
-        x0: 0,
-        y0: 100,
-        x1: -50,
-        y1: 150,
-    }, {
-        x0: 0,
-        y0: 100,
-        x1: 50,
-        y1: 150,
-    }, {
-        x0: 0,
-        y0: 20,
-        x1: -50,
-        y1: 20,
-    }, {
-        x0: 0,
-        y0: 20,
-        x1: 50,
-        y1: 20,
-    }],
-    circles: [{
-        x0: 0,
-        y0: -50,
-        radius: 50,
-        color: "#FF0000",
-        fill: true,
-    }],
-    height: 150,
-    width: 50,
-    angle: 0,
-};
-
-objects[1] = { //Border
-    x0: 0,
-    y0: 0,
-    x: 0,
-    y: 0,
-    dx: 0,
-    dy: 0,
-    dxMax: 0,
-    dyMax: 0,
-    lines: [{
-        x0: 0,
-        y0: 0,
-        x1: 2000,
-        y1: 0,
-    }, {
-        x0: 2000,
-        y0: 0,
-        x1: 2000,
-        y1: 1000,
-    }, {
-        x0: 2000,
-        y0: 1000,
-        x1: 0,
-        y1: 1000,
-    }, {
-        x0: 0,
-        y0: 1000,
-        x1: 0,
-        y1: 0,
-    }],
-    height: 0,
-    width: 0,
-    angle: 0,
-};
+let objects = [];
+let mapWidth = 0;
+let mapHeight = 0;
 
 //Use objects' velocities to move
 function updateLocations() {
@@ -173,6 +90,21 @@ function updateVelocities() {
         objects[0].dy = 0;
 }
 
+function loadLevel(levelNumber) {
+    running = false;
+
+    switch (levelNumber) {
+    case 0:
+        mapWidth = level0.mapWidth;
+        mapHeight = level0.mapHeight;
+        objects = level0.objects;
+        break;
+    default:
+        break;
+    }
+    running = true;
+}
+
 //Main game logic
 const main = () => {
     if (running) {
@@ -194,7 +126,7 @@ const resize = () => {
 
 const init = () => {
     resize();
-    running = true;
+    loadLevel(0);
     main();
 };
 
