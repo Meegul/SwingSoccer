@@ -40,7 +40,7 @@ function drawBackground(color) {
     if (color) {
         brush.fillStyle = color;
     } else {
-        brush.fillStyle = "#000";
+        brush.fillStyle = "#FFF";
     }
     brush.fillRect(0, 0, area.width, area.height);
 }
