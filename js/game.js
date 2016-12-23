@@ -15,16 +15,21 @@ function updateTime() {
 
 function loadLevel(levelNumber) {
     running = false;
+    let levelToLoad;
 
     switch (levelNumber) {
     case 0:
-        mapWidth = level0.mapWidth;
-        mapHeight = level0.mapHeight;
-        backgroundColor = level0.backgroundColor;
-        objects = level0.objects;
+        levelToLoad = level0;
         break;
     default:
         break;
+    }
+
+    if (levelToLoad) {
+        mapWidth = levelToLoad.mapWidth;
+        mapHeight = levelToLoad.mapHeight;
+        backgroundColor = levelToLoad.backgroundColor;
+        objects = levelToLoad.objects;
     }
     running = true;
 }
