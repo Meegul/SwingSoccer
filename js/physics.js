@@ -5,6 +5,9 @@ function updateLocations() {
         on.x += on.dx;
         on.y += on.dy;
 
+        //Update angles
+        on.angle += on.dTheta;
+
         //Resolve errors that would've occurred
         if (on.x + on.width > mapWidth) {
             on.x = mapWidth - on.width;
@@ -16,8 +19,6 @@ function updateLocations() {
         }
         if (on.y + on.height >= mapHeight) {
             if (on.ball) {
-                on.angle += on.dx;
-
                 //Bounce when colliding with the ground
                 if (Math.abs(on.dy) < 1) {
                     on.y = mapHeight - on.height;
@@ -70,14 +71,19 @@ function updateVelocities() {
                 yChange -= 25;
 
             //TESTING ANGLES
-            if (keysDown[69])
-                objects[0].angle++;
-            if (keysDown[81])
-                objects[0].angle--;
+            if (keysDown[69] && objects[0].dTheta < objects[0].dThetaMax)
+                objects[0].dTheta++;
+            if (keysDown[81] && objects[0].dTheta > -1 * objects[0].dThetaMax)
+                objects[0].dTheta--;
         }
         //Calculates the new speeds
         on.dx = on.dx * friction + xChange;
         on.dy = on.dy + yChange + gravity;
+
+        if (!on.ball) {
+            //Not a ball, let's have some dTheta friction
+            on.dTheta *= on.friction;
+        }
 
         //Checks if the object is going too fast and
         //caps the speed, if necessary
@@ -100,8 +106,11 @@ function updateVelocities() {
 }
 
 function roll(object) {
-    if (object.ball && object.y + object.height === area.height) {
-        object.angle += object.dx;
+    if (object.ball && object.y + object.height >= area.height) {
+        object.dTheta = object.dx;
+    }
+    if (object.dTheta > object.dThetaMax) {
+        object.dTheta = object.dThetaMax;
     }
 }
 

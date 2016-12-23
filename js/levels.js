@@ -11,8 +11,10 @@ const level0 = {
         y: 500,
         dx: 0,
         dy: 0,
+        dTheta: 0,
         dxMax: 10,
         dyMax: 40,
+        dThetaMax: 30,
         lines: [{
             x0: 0,
             y0: 0,
@@ -60,8 +62,10 @@ const level0 = {
         y: 500,
         dx: 10,
         dy: 0,
+        dTheta: 0,
         dxMax: 10,
         dyMax: 40,
+        dThetaMax: 30,
         lines: [{
             x0: -50,
             y0: 0,

@@ -48,7 +48,7 @@ let lastFrames = 0; //Frames last second
 let frames = 0; //Frames this second
 let timeSinceLastFrame = 0; //Time in between frames
 let totalTimeToRender = 0; //Time in between frames + render time
-let maxTotalTime = 0;
+let maxTotalTime = 0; //Maximum totalTimeToRender in a second
 function debugData(timeStart, timeEnd) {
     if (timeEnd - startSecond >= 1000) { //Collect frames for a second
         lastFrames = frames;
