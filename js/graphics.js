@@ -122,7 +122,13 @@ function drawFrameTime(time, lastFrames, timeSinceLastFrame, totalRenderTime, to
 
 function drawBorder() {
     brush.strokeStyle = "#000";
-    brush.rect(0, 0, mapWidth, mapHeight);
+    const xOffset = cameraLocation.x;
+    const yOffset = cameraLocation.y;
+    brush.moveTo(-xOffset, -yOffset);
+    brush.lineTo(mapWidth - xOffset, 0);
+    brush.lineTo(mapWidth - xOffset, mapHeight + yOffset);
+    brush.lineTo(0, mapHeight + yOffset);
+    brush.lineTo(-xOffset, -yOffset);
     brush.stroke();
 }
 
