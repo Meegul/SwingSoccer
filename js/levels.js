@@ -9,6 +9,7 @@ const level0 = {
         y0: 500,
         x: 500,
         y: 500,
+        angle: 0,
         dx: 0,
         dy: 0,
         dTheta: 0,
@@ -51,7 +52,6 @@ const level0 = {
         }],
         height: 150,
         width: 50,
-        angle: 0,
     }, { //Ball
         player: false,
         ball: true,
@@ -60,10 +60,11 @@ const level0 = {
         y0: 500,
         x: 750,
         y: 500,
-        dx: 10,
+        angle: 0,
+        dx: 15,
         dy: 0,
         dTheta: 0,
-        dxMax: 10,
+        dxMax: 15,
         dyMax: 40,
         dThetaMax: 30,
         lines: [{
@@ -86,6 +87,5 @@ const level0 = {
         }],
         height: 50,
         width: 50,
-        angle: 0,
     }],
 };
