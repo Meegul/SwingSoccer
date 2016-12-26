@@ -132,6 +132,24 @@ function drawBorder() {
     brush.stroke();
 }
 
+function drawHitBox() {
+    objects.forEach((on) => {
+        brush.beginPath();
+        brush.strokeStyle = "#FF0000";
+        brush.font = "12px Arial";
+        brush.fillStyle = "#FF0000";
+        brush.fillText(`x:${Math.trunc(on.x)},y:${Math.trunc(on.y)}`,
+            on.x - on.width - cameraLocation.x,
+            on.y - on.height + cameraLocation.y);
+        brush.moveTo(on.x - on.width - cameraLocation.x, on.y - on.height + cameraLocation.y);
+        brush.lineTo(on.x + on.width - cameraLocation.x, on.y - on.height + cameraLocation.y);
+        brush.lineTo(on.x + on.width - cameraLocation.x, on.y + on.height + cameraLocation.y);
+        brush.lineTo(on.x - on.width - cameraLocation.x, on.y + on.height + cameraLocation.y);
+        brush.lineTo(on.x - on.width - cameraLocation.x, on.y - on.height + cameraLocation.y);
+        brush.stroke();
+    });
+}
+
 //Draw all objects
 function drawAll() {
     drawBackground(backgroundColor);
@@ -139,6 +157,9 @@ function drawAll() {
     objects.forEach((on) => {
         drawObject(on);
     });
+    if (debug) {
+        drawHitBox();
+    }
     drawTime();
 }
 

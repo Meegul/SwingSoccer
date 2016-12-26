@@ -115,7 +115,23 @@ function roll(object) {
 }
 
 function collisions() {
-    let collisionPairs = [];
+    const collisionPairs = [];
+    objects.forEach((on1) => {
+        objects.forEach((on2) => {
+            if (on1 === on2) //Don't collide with self
+                return;
+            if (on1.x < on2.x + on2.width &&
+                on1.x + on1.width > on2.x &&
+                on1.y < on2.y + on2.height &&
+                on1.height + on1.y > on2.y) {
+                //Collision!
+                collisionPairs.push([on1, on2]);
+            }
+        });
+    });
+    collisionPairs.forEach((pair) => {
+        alert("Collision!");
+    });
     return;
 }
 
