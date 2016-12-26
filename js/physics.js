@@ -13,23 +13,12 @@ function updateLocations() {
             on.x = mapWidth - on.width;
             on.dx = 0;
         }
-        if (on.x - on.width < 0) {
-            on.x = 0 + on.width;
+        if (on.x < 0) {
+            on.x = 0;
             on.dx = 0;
         }
         if (on.y + on.height >= mapHeight) {
-            if (on.ball) {
-                //Bounce when colliding with the ground
-                if (Math.abs(on.dy) < 1) {
-                    on.y = mapHeight - on.height;
-                    on.dy = 0;
-                } else {
-                    on.dy = -1 * on.dy / 2;
-                }
-            } else {
-                on.y = mapHeight - on.height;
-                on.dy = 0;
-            }
+            on.y = mapHeight - on.height;
         }
         if (on.y < 0) {
             on.y = 0;
@@ -58,7 +47,7 @@ function resetVelocities() {
 //to determine what direction to move
 function updateVelocities() {
     objects.forEach((on) => {
-        const friction = on.friction; //Speeds get slowed by .1 every frame
+        const friction = on.friction;
         const gravity = 1.2;
         let xChange = 0;
         let yChange = 0;
@@ -67,14 +56,14 @@ function updateVelocities() {
                 xChange += 2;
             if (keysDown[65]) //If a, increase speed left
                 xChange -= 2;
-            if (keysDown[87] && objects[0].y + objects[0].height === area.height) //If w && object on ground, jump
+            if (keysDown[87] && on.y + on.height === area.height) //If w && object on ground, jump
                 yChange -= 25;
 
             //TESTING ANGLES
-            if (keysDown[69] && objects[0].dTheta < objects[0].dThetaMax)
-                objects[0].dTheta++;
-            if (keysDown[81] && objects[0].dTheta > -1 * objects[0].dThetaMax)
-                objects[0].dTheta--;
+            if (keysDown[69] && on.dTheta < on.dThetaMax)
+                on.dTheta++;
+            if (keysDown[81] && on.dTheta > -1 * on.dThetaMax)
+                on.dTheta--;
         }
         //Calculates the new speeds
         on.dx = on.dx * friction + xChange;
@@ -100,8 +89,17 @@ function updateVelocities() {
             on.dy = on.dyMax * -1;
 
         //If we're on the ground and didn't jump, have no vertical velocity
-        if (yChange === 0 && on.y + on.height === area.height)
+        if (on.player && yChange === 0 && on.y + on.height >= area.height) {
             on.dy = 0;
+        }
+
+        if (on.ball && on.y + on.height >= mapHeight) { //We should bounce!
+            if (Math.abs(on.dy) < 1) {
+                on.dy = 0;
+            } else {
+                on.dy *= -1 * 0.98;
+            }
+        }
     });
 }
 
@@ -117,22 +115,47 @@ function roll(object) {
 function collisions() {
     const collisionPairs = [];
     objects.forEach((on1) => {
+        const topLeft1 = rotateAroundObject(0, 0, on1);
+        const topRight1 = rotateAroundObject(on1.width, 0, on1);
+        const bottomRight1 = rotateAroundObject(on1.width, on1.height, on1);
+        const bottomLeft1 = rotateAroundObject(0, on1.height, on1);
+        const object1 = new SAT.Polygon(null, [
+            new SAT.Vector(topLeft1.x, topLeft1.y),
+            new SAT.Vector(topRight1.x, topRight1.y),
+            new SAT.Vector(bottomRight1.x, bottomRight1.y),
+            new SAT.Vector(bottomLeft1.x, bottomLeft1.y),
+        ]);
         objects.forEach((on2) => {
             if (on1 === on2) //Don't collide with self
                 return;
-            if (on1.x < on2.x + on2.width &&
-                on1.x + on1.width > on2.x &&
-                on1.y < on2.y + on2.height &&
-                on1.height + on1.y > on2.y) {
-                //Collision!
-                collisionPairs.push([on1, on2]);
+
+            const topLeft2 = rotateAroundObject(0, 0, on2);
+            const topRight2 = rotateAroundObject(on2.width, 0, on2);
+            const bottomRight2 = rotateAroundObject(on2.width, on2.height, on2);
+            const bottomLeft2 = rotateAroundObject(0, on2.height, on2);
+            const object2 = new SAT.Polygon(null, [
+                new SAT.Vector(topLeft2.x, topLeft2.y),
+                new SAT.Vector(topRight2.x, topRight2.y),
+                new SAT.Vector(bottomRight2.x, bottomRight2.y),
+                new SAT.Vector(bottomLeft2.x, bottomLeft2.y),
+            ]);
+            const response = new SAT.Response();
+            const collided = SAT.testPolygonPolygon(object1, object2, response);
+            if (collided && collisionPairs.indexOf([on2, on1]) === -1) {
+                collisionPairs.push([on1, on2, response]);
             }
         });
     });
     collisionPairs.forEach((pair) => {
-        alert("Collision!");
+        //console.log(pair[0].ball + pair[2].overlapV);
+        if (pair[0].ball) {
+            pair[0].dx -= pair[2].overlapV.x;
+            pair[0].dy -= pair[2].overlapV.y;
+        } else {
+            pair[1].dx += pair[2].overlapV.x;
+            pair[1].dy += pair[2].overlapV.y;
+        }
     });
-    return;
 }
 
 function doPhysics() {

@@ -25,10 +25,13 @@ function rotateAroundObject(x0, y0, object) {
     const cos = Math.cos(degree);
     const sin = Math.sin(degree);
 
-    const dx = x0 * cos - y0 * sin;
-    const dy = y0 * cos + x0 * sin;
-    const xAfter = dx + object.x;
-    const yAfter = dy + object.y;
+    const offsetX = x0 - object.width / 2;
+    const offsetY = y0 - object.height / 2;
+
+    const dx = offsetX * cos - offsetY * sin;
+    const dy = offsetY * cos + offsetX * sin;
+    const xAfter = dx + object.x + object.width / 2;
+    const yAfter = dy + object.y + object.height / 2;
     return {
         x: xAfter,
         y: yAfter,
@@ -138,14 +141,29 @@ function drawHitBox() {
         brush.strokeStyle = "#FF0000";
         brush.font = "12px Arial";
         brush.fillStyle = "#FF0000";
-        brush.fillText(`x:${Math.trunc(on.x)},y:${Math.trunc(on.y)}`,
-            on.x - on.width - cameraLocation.x,
-            on.y - on.height + cameraLocation.y);
-        brush.moveTo(on.x - on.width - cameraLocation.x, on.y - on.height + cameraLocation.y);
-        brush.lineTo(on.x + on.width - cameraLocation.x, on.y - on.height + cameraLocation.y);
-        brush.lineTo(on.x + on.width - cameraLocation.x, on.y + on.height + cameraLocation.y);
-        brush.lineTo(on.x - on.width - cameraLocation.x, on.y + on.height + cameraLocation.y);
-        brush.lineTo(on.x - on.width - cameraLocation.x, on.y - on.height + cameraLocation.y);
+
+        const topLeft = rotateAroundObject(0, 0, on);
+        const topRight = rotateAroundObject(on.width, 0, on);
+        const bottomRight = rotateAroundObject(on.width, on.height, on);
+        const bottomLeft = rotateAroundObject(0, on.height, on);
+
+        brush.fillText(`x:${Math.trunc(topLeft.x)},y:${Math.trunc(topLeft.y)}`,
+            topLeft.x - cameraLocation.x,
+            topLeft.y + cameraLocation.y);
+        brush.moveTo(topLeft.x - cameraLocation.x, topLeft.y + cameraLocation.y);
+        brush.fillText(`x:${Math.trunc(topRight.x)},y:${Math.trunc(topRight.y)}`,
+            topRight.x - cameraLocation.x,
+            topRight.y + cameraLocation.y);
+        brush.lineTo(topRight.x - cameraLocation.x, topRight.y + cameraLocation.y);
+        brush.fillText(`x:${Math.trunc(bottomRight.x)},y:${Math.trunc(bottomRight.y)}`,
+            bottomRight.x - cameraLocation.x,
+            bottomRight.y + cameraLocation.y);
+        brush.lineTo(bottomRight.x - cameraLocation.x, bottomRight.y + cameraLocation.y);
+        brush.fillText(`x:${Math.trunc(bottomLeft.x)},y:${Math.trunc(bottomLeft.y)}`,
+            bottomLeft.x - cameraLocation.x,
+            bottomLeft.y + cameraLocation.y);
+        brush.lineTo(bottomLeft.x - cameraLocation.x, bottomLeft.y + cameraLocation.y);
+        brush.lineTo(topLeft.x - cameraLocation.x, topLeft.y + cameraLocation.y);
         brush.stroke();
     });
 }
