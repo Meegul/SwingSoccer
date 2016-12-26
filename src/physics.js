@@ -173,3 +173,15 @@ function doPhysics() {
     updateVelocities();
     lastTime = new Date().getTime();
 }
+
+
+//For server-side testing purposes:
+if (typeof exports !== "undefined") {
+    var area;
+    exports.area = (newArea) => {
+        area = newArea;
+    };
+    exports.roll = (object) => {
+        roll(object);
+    };
+}
