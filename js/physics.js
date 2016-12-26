@@ -1,12 +1,17 @@
+let lastTime = 0;
+let currentTime = 0;
+
 //Use objects' velocities to move
 function updateLocations() {
+    const timeElapsed = (currentTime - lastTime) / 1000;
+    //console.log(timeElapsed);
     objects.forEach((on) => {
         //Update locations
-        on.x += on.dx;
-        on.y += on.dy;
+        on.x += on.dx * timeElapsed * 60;
+        on.y += on.dy * timeElapsed * 60;
 
         //Update angles
-        on.angle += on.dTheta;
+        on.angle += on.dTheta * timeElapsed * 60;
 
         //Resolve errors that would've occurred
         if (on.x + on.width > mapWidth) {
@@ -159,10 +164,12 @@ function collisions() {
 }
 
 function doPhysics() {
+    currentTime = new Date().getTime();
     updateLocations();
     objects.forEach((on) => {
         roll(on);
     });
     collisions();
     updateVelocities();
+    lastTime = new Date().getTime();
 }
