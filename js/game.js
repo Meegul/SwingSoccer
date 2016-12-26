@@ -1,101 +1,12 @@
-let running = false; //Whether the game is being rendered
-let started = false; //Whether the actual game is in progress
-let objects = [];
-let mapWidth = 0;
-let mapHeight = 0;
-let backgroundColor = "#000";
-let startTime = 0;
-let endTime = 10000;
-let timeRemaining = 0;
-
-function updateTime() {
-    const timeNow = new Date().getTime();
-    timeRemaining = endTime - timeNow;
-}
-
-function loadLevel(levelNumber) {
-    running = false;
-    let levelToLoad;
-
-    switch (levelNumber) {
-    case 0:
-        levelToLoad = level0;
-        break;
-    default:
-        break;
-    }
-
-    if (levelToLoad) {
-        mapWidth = levelToLoad.mapWidth;
-        mapHeight = levelToLoad.mapHeight;
-        backgroundColor = levelToLoad.backgroundColor;
-        objects = levelToLoad.objects;
-    }
-    running = true;
-}
-
-function startGame() {
-    const gameDuration = 60 * 1000; //60 seconds
-    startTime = new Date().getTime();
-    endTime = startTime + gameDuration;
-}
-
-//Debugging variables
-const debug = true;
-let startSecond = 0; //Used for FPS calc
-let lastFrameEnd = 0; //When the last frame ended
-let lastFrames = 0; //Frames last second
-let frames = 0; //Frames this second
-let timeSinceLastFrame = 0; //Time in between frames
-let totalTimeToRender = 0; //Time in between frames + render time
-let maxTotalTime = 0; //Maximum totalTimeToRender in a second
-function debugData(timeStart, timeEnd) {
-    if (timeEnd - startSecond >= 1000) { //Collect frames for a second
-        lastFrames = frames;
-        frames = 0;
-        startSecond = timeEnd;
-        maxTotalTime = totalTimeToRender;
-    }
-    frames++;
-    timeSinceLastFrame = timeStart - lastFrameEnd;
-    totalTimeToRender = timeEnd - lastFrameEnd;
-    if (maxTotalTime < totalTimeToRender) {
-        maxTotalTime = totalTimeToRender;
-    }
-    lastFrameEnd = timeEnd;
-    drawFrameTime(timeEnd - timeStart, lastFrames, timeSinceLastFrame, totalTimeToRender, maxTotalTime);
-}
-
-//Main game logic
-const main = () => {
-    if (running) {
-        const frameStart = new Date().getTime();
-        clear();
-        drawAll();
-        moveCamera();
-        doPhysics();
-        updateTime();
-        const frameEnd = new Date().getTime();
-        if (debug) {
-            debugData(frameStart, frameEnd);
-        }
-        requestAnimationFrame(main);
-    }
-};
-
-const resize = () => {
-    const smallerDimension = (window.innerWidth < window.innerHeight) ? window.innerHeight : window.innerHeight;
-    const canvas = document.getElementById("game");
-    canvas.style.width = smallerDimension - 2;
-    canvas.style.height = smallerDimension - 2;
-};
-
-const init = () => {
-    resize();
-    loadLevel(0);
-    startGame();
-    main();
-};
-
-window.onload = init;
-window.onresize = resize;
+"use strict";var running=!1,started=!1,objects=[],mapWidth=0,mapHeight=0,backgroundColor="#000",startTime=0,endTime=1e4,timeRemaining=0;//Whether the game is being rendered
+//Whether the actual game is in progress
+function updateTime(){var a=new Date().getTime();timeRemaining=endTime-a}function loadLevel(a){running=!1;var b=void 0;switch(a){case 0:b=level0;break;default:}b&&(mapWidth=b.mapWidth,mapHeight=b.mapHeight,backgroundColor=b.backgroundColor,objects=b.objects),running=!0}function startGame(){startTime=new Date().getTime(),endTime=startTime+60000}//Debugging variables
+var debug=!0,startSecond=0,lastFrameEnd=0,lastFrames=0,frames=0,timeSinceLastFrame=0,totalTimeToRender=0,maxTotalTime=0;//Used for FPS calc
+//When the last frame ended
+//Frames last second
+//Frames this second
+//Time in between frames
+//Time in between frames + render time
+//Maximum totalTimeToRender in a second
+function debugData(a,b){1e3<=b-startSecond&&(lastFrames=frames,frames=0,startSecond=b,maxTotalTime=totalTimeToRender),frames++,timeSinceLastFrame=a-lastFrameEnd,totalTimeToRender=b-lastFrameEnd,maxTotalTime<totalTimeToRender&&(maxTotalTime=totalTimeToRender),lastFrameEnd=b,drawFrameTime(b-a,lastFrames,timeSinceLastFrame,totalTimeToRender,maxTotalTime)}//Main game logic
+var main=function main(){if(running){var a=new Date().getTime();clear(),drawAll(),moveCamera(),doPhysics(),updateTime();var b=new Date().getTime();debugData(a,b),requestAnimationFrame(main)}},resize=function resize(){var a=window.innerWidth<window.innerHeight?window.innerHeight:window.innerHeight,b=document.getElementById("game");b.style.width=a-2,b.style.height=a-2},init=function init(){resize(),loadLevel(0),startGame(),main()};window.onload=init,window.onresize=resize;
